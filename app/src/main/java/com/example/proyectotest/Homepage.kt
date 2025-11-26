@@ -1,0 +1,119 @@
+package com.example.proyectotest
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.proyectotest.ui.theme.ProyectoTestTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+
+class Homepage : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ProyectoTestTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    HomeScreen()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun HomeScreen() {
+    Scaffold(
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+            Text(
+                text = "WELCOME TO THE HOSPITAL",
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 25.sp
+                ),
+                modifier = Modifier.padding(bottom = 32.dp)
+            )
+            //agregar imagen
+            Image(
+                painter = painterResource(id = R.drawable.logo_hospital),
+                contentDescription = "Logo del Hospital",
+                modifier = Modifier
+                    .size(350.dp)
+                    .padding(bottom = 48.dp)
+            )
+
+            AppButton(
+                text = "Login",
+                onClick = {
+                    println("Login presionado")
+                }
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            AppButton(
+                text = "Display all nurses",
+                onClick = {
+                    println("Display all nurses presionado")
+                }
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            AppButton(
+                text = "Search nurse by name",
+                onClick = {
+                    println("Search nurse by name presionado")
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun AppButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = text, modifier = Modifier.padding(vertical = 8.dp))
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    ProyectoTestTheme {
+        HomeScreen()
+    }
+}
