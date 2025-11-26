@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ProyectoTest</string>
+    <string name="log_in_form_title">NURSE LOG IN SITE</string>
+    <string name="log_in_username_field">Username</string>
+    <string name="log_in_password_field">Password</string>
+    <string name="log_in_button">LOG IN</string>
+    <string name="log_in_error">Incorrect username or password</string>
+    <string name="logged_in_greeting">Hello %1$s ! You are logged in !</string>
+    <string name="logged_in_id">Id: %1$s</string>
+    <string name="logged_in_name">Name: %1$s</string>
+    <string name="logged_in_lastname">Lastname: %1$s</string>
+    <string name="logged_in_username">Username: %1$s</string>
+    <string name="logged_in_password">Password: %1$s</string>
+    <string name="log_out_button">LOG OUT</string>
+</resources>
