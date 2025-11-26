@@ -1,7 +1,7 @@
 package com.example.proyectotest
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.Settings.Global.getString
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,7 +9,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,17 +29,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.ui.res.stringResource
 
 
-class MainActivity : ComponentActivity() {
+class LogIn : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,12 +45,14 @@ class MainActivity : ComponentActivity() {
             ProyectoTestTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LogIn()
+
                 }
             }
         }
     }
-}
-@Preview
+
+
+@SuppressLint("NotConstructor")
 @Composable
 fun LogIn(modifier: Modifier = Modifier) {
     var user by remember { mutableStateOf("")}
@@ -145,23 +144,27 @@ fun  CheckUser(user:String,pw:String):Boolean{
 
 
 @Composable
-fun LoggedIn(user:String,pw:String){
-    var loggedOut by remember { mutableStateOf(false)}
-    val name="Pepita"
-    val lastname="Grilla"
-    val id="00142"
+fun LoggedIn(user:String,pw:String) {
+    var loggedOut by remember { mutableStateOf(false) }
+    val name = "Pepita"
+    val lastname = "Grilla"
+    val id = "00142"
 
-    if(loggedOut==true){
+    if (loggedOut == true) {
         LogIn()
-    }else{
+    } else {
 
         Column(
             modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally
 
-        ){
+        ) {
             Spacer(modifier = Modifier.height(60.dp))
-            Text(text = stringResource(id = R.string.logged_in_greeting, name),modifier = Modifier.background(color = colorResource(id = R.color.black)), color = colorResource(id = R.color.white))
+            Text(
+                text = stringResource(id = R.string.logged_in_greeting, name),
+                modifier = Modifier.background(color = colorResource(id = R.color.black)),
+                color = colorResource(id = R.color.white)
+            )
             Spacer(modifier = Modifier.height(30.dp))
             Image(
                 painter = painterResource(id = R.drawable.profile_picture), // tu imagen en res/drawable
@@ -169,41 +172,59 @@ fun LoggedIn(user:String,pw:String){
                 modifier = Modifier
                     .size(290.dp)
                     .clip(CircleShape),
-                    contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Crop,
 
 
-            )
+                )
             Spacer(modifier = Modifier.height(20.dp))
             Column(
-                modifier = Modifier.background(color=colorResource(id = R.color.black)).padding(10.dp),
+                modifier = Modifier.background(color = colorResource(id = R.color.black))
+                    .padding(10.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(text=stringResource(id = R.string.logged_in_id, id), color = colorResource(id = R.color.white))
-                Text(text=stringResource(id = R.string.logged_in_name, name), color = colorResource(id = R.color.white))
-                Text(text=stringResource(id = R.string.logged_in_lastname, lastname), color = colorResource(id = R.color.white))
-                Text(text=stringResource(id = R.string.logged_in_username, user), color = colorResource(id = R.color.white))
-                Text(text=stringResource(id = R.string.logged_in_password, pw), color = colorResource(id = R.color.white))
+                Text(
+                    text = stringResource(id = R.string.logged_in_id, id),
+                    color = colorResource(id = R.color.white)
+                )
+                Text(
+                    text = stringResource(id = R.string.logged_in_name, name),
+                    color = colorResource(id = R.color.white)
+                )
+                Text(
+                    text = stringResource(id = R.string.logged_in_lastname, lastname),
+                    color = colorResource(id = R.color.white)
+                )
+                Text(
+                    text = stringResource(id = R.string.logged_in_username, user),
+                    color = colorResource(id = R.color.white)
+                )
+                Text(
+                    text = stringResource(id = R.string.logged_in_password, pw),
+                    color = colorResource(id = R.color.white)
+                )
 
             }
             Spacer(modifier = Modifier.height(20.dp))
             Button(
                 onClick = {
-                loggedOut=true
+                    loggedOut = true
                 },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(id = R.color.black),
-                    contentColor   = colorResource(id = R.color.white)
+                    contentColor = colorResource(id = R.color.white)
                 )
             ) {
-                Text(text=stringResource(id = R.string.log_out_button, id))
+                Text(text = stringResource(id = R.string.log_out_button, id))
             }
         }
 
     }
-
-
 }
+    }
+
+
+
 
 
 
