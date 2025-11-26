@@ -79,6 +79,8 @@ fun HomeScreen() {
                 text = "Login",
                 onClick = {
                     println("Login presionado")
+                    val intent = Intent(context, LogIn::class.java)
+                    context.startActivity(intent)
                 }
             )
 

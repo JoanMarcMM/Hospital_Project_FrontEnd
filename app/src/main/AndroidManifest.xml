@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoTest">
         <activity android:name=".SearchByName" />
+        <activity android:name=".LogIn" />
         <activity
             android:name=".Homepage"
             android:exported="true"
