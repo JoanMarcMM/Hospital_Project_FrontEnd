@@ -12,4 +12,7 @@
     <string name="logged_in_username">Username: %1$s</string>
     <string name="logged_in_password">Password: %1$s</string>
     <string name="log_out_button">LOG OUT</string>
+    <string name="foto_de">Foto de %1$s</string>
+    <string name="name_to_search">Name to search...</string>
+    <string name="homepage">Homepage</string>
 </resources>
