@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 
 class SearchByName : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +69,7 @@ fun SearchView(
             ) {
                 Icon(
                     imageVector = Icons.Default.Home,
-                    contentDescription = "Homepage"
+                    contentDescription = stringResource(R.string.homepage)
                 )
             }
         },
@@ -87,7 +88,7 @@ fun SearchView(
                         .fillMaxWidth()
                         .padding(60.dp),
                     placeholder = {
-                        Text(text = "Name to search...")
+                        Text(text = stringResource(R.string.name_to_search))
                     },
                     maxLines = 1,
                     singleLine = true,
@@ -125,7 +126,7 @@ fun SearchView(
 
                             Image(
                                 painter = painterResource(id = nurse.imageId),
-                                contentDescription = "Foto de ${nurse.name}",
+                                contentDescription = context.getString(R.string.foto_de, nurse.name),
                                 modifier = Modifier
                                     .size(50.dp)
                                     .clip(CircleShape)
