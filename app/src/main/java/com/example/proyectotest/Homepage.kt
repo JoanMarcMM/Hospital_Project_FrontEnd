@@ -26,6 +26,7 @@ import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
@@ -59,7 +60,7 @@ fun HomeScreen() {
             verticalArrangement = Arrangement.Top
         ) {
             Text(
-                text = "WELCOME TO THE HOSPITAL",
+                text = stringResource(R.string.welcome_to_the_hospital),
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 25.sp
@@ -69,16 +70,16 @@ fun HomeScreen() {
             //agregar imagen
             Image(
                 painter = painterResource(id = R.drawable.logo_hospital),
-                contentDescription = "Logo del Hospital",
+                contentDescription = stringResource(R.string.logo_del_hospital),
                 modifier = Modifier
                     .size(350.dp)
                     .padding(bottom = 48.dp)
             )
 
             AppButton(
-                text = "Login",
+                text = stringResource(R.string.login),
                 onClick = {
-                    println("Login presionado")
+                    println(context.getString(R.string.login_presionado))
                     val intent = Intent(context, LogIn::class.java)
                     context.startActivity(intent)
                 }
@@ -87,9 +88,9 @@ fun HomeScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             AppButton(
-                text = "Display all nurses",
+                text = stringResource(R.string.display_all_nurses),
                 onClick = {
-                    println("Display all nurses presionado")
+                    println(context.getString(R.string.display_all_nurses_presionado))
                 }
             )
 
@@ -97,11 +98,11 @@ fun HomeScreen() {
 
             AppButton(
 
-                text = "Search nurse by name",
+                text = stringResource(R.string.search_nurse_by_name),
                 onClick = {
                     val intent = Intent(context, SearchByName::class.java)
                     context.startActivity(intent)
-                    println("Search nurse by name presionado")
+                    println(context.getString(R.string.search_nurse_by_name_presionado))
 
 
                 }
