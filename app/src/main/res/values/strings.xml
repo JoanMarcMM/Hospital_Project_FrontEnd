@@ -15,4 +15,9 @@
     <string name="foto_de">Foto de %1$s</string>
     <string name="name_to_search">Name to search...</string>
     <string name="homepage">Homepage</string>
+    <string name="welcome_to_the_hospital">WELCOME TO THE HOSPITAL</string>
+    <string name="login">Login</string>
+    <string name="display_all_nurses">Display all nurses</string>
+    <string name="search_nurse_by_name">Search nurse by name</string>
+    <string name="logo_del_hospital">Logo del Hospital</string>
 </resources>

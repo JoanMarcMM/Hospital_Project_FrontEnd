@@ -1,6 +1,5 @@
 package com.example.proyectotest
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +46,6 @@ class Homepage : ComponentActivity() {
 
 @Composable
 fun HomeScreen() {
-    val context = LocalContext.current
     Scaffold(
     ) { innerPadding ->
         Column(
@@ -79,9 +76,7 @@ fun HomeScreen() {
             AppButton(
                 text = stringResource(R.string.login),
                 onClick = {
-                    println(context.getString(R.string.login_presionado))
-                    val intent = Intent(context, LogIn::class.java)
-                    context.startActivity(intent)
+                    println("Login presionado")
                 }
             )
 
@@ -90,21 +85,16 @@ fun HomeScreen() {
             AppButton(
                 text = stringResource(R.string.display_all_nurses),
                 onClick = {
-                    println(context.getString(R.string.display_all_nurses_presionado))
+                    println("Display all nurses presionado")
                 }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             AppButton(
-
                 text = stringResource(R.string.search_nurse_by_name),
                 onClick = {
-                    val intent = Intent(context, SearchByName::class.java)
-                    context.startActivity(intent)
-                    println(context.getString(R.string.search_nurse_by_name_presionado))
-
-
+                    println("Search nurse by name presionado")
                 }
             )
         }
