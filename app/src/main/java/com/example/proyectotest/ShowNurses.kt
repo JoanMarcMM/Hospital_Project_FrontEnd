@@ -52,7 +52,6 @@ class ShowNurses : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // Aquí llamamos a tu pantalla principal
             NurseListScreen()
         }
     }
@@ -202,7 +201,7 @@ fun NurseListScreen()  {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(nurses) { nurse ->
-                    NurseCard(nurse = nurse) // **ADAPTADO**
+                    NurseCard(nurse = nurse) //
                 }
                 item {
                     Spacer(modifier = Modifier.height(32.dp))
