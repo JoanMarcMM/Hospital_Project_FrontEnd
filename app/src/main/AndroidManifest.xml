@@ -13,6 +13,7 @@
         android:theme="@style/Theme.ProyectoTest">
         <activity android:name=".LogIn" />
         <activity android:name=".SearchByName" />
+        <activity android:name="ShowNurses" />
         <activity
             android:name=".Homepage"
             android:exported="true"
