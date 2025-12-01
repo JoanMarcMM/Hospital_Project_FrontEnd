@@ -1,6 +1,7 @@
 package com.example.proyectotest
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,8 +17,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -30,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -55,6 +61,7 @@ class LogIn : ComponentActivity() {
 @SuppressLint("NotConstructor")
 @Composable
 fun LogIn(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     var user by remember { mutableStateOf("")}
     var pw by remember { mutableStateOf("")}
     var loggedIn by remember { mutableStateOf(false)}
@@ -118,7 +125,20 @@ fun LogIn(modifier: Modifier = Modifier) {
                 ) {
                     Text(text=stringResource(id = R.string.log_in_button))
                 }
-
+                Spacer(modifier = modifier.height(400.dp))
+                FloatingActionButton(
+                    onClick = {
+                        val intent = Intent( context,  Homepage::class.java)
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier.padding(start = 16.dp),
+                    containerColor = colorResource(id = R.color.black)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Home,
+                        contentDescription = "Homepage"
+                    )
+                }
 
             }
         }
