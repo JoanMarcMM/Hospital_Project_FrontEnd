@@ -41,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 
 
 class LogIn : ComponentActivity() {
@@ -241,7 +242,8 @@ fun LoggedIn(user:String,pw:String) {
 
     }
 }
-    }
+}
+
 
 
 
