@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -95,7 +96,7 @@ fun SearchView(
                     maxLines = 1,
                     singleLine = true,
                     textStyle = TextStyle(
-                        color = Color.Black,
+                        color = colorResource(id = R.color.black),
                         fontSize = 20.sp
                     ),
                     trailingIcon = {
@@ -106,8 +107,8 @@ fun SearchView(
                     },
                     shape = RoundedCornerShape(8.dp),
                     colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
+                        focusedIndicatorColor = colorResource(id = R.color.transparent),
+                        unfocusedIndicatorColor = colorResource(id = R.color.transparent)
                     )
                 )
 

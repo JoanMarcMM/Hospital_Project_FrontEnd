@@ -49,6 +49,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.proyectotest.ShowNurses
+import com.example.proyectotest.RegisterScreen
+import com.example.proyectotest.SearchViewMode
 
 class Homepage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +61,7 @@ class Homepage : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen()
+                    RegisterScreen(viewModel = SearchViewMode())
                 }
             }
         }
