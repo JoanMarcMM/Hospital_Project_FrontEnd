@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import com.example.proyectotest.ShowNurses
 import com.example.proyectotest.RegisterScreen
 import com.example.proyectotest.NurseViewModel
+import com.example.proyectotest.LogInNurseScreen
 
 class Homepage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,14 +62,22 @@ class Homepage : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
+
                 ) {
-                    RegisterScreen(viewModel = NurseViewModel())
+                    var nurseViewModel = NurseViewModel();
+                    var modifier = Modifier;
+                    //LogInNurseScreen.LogIn(modifier,nurseViewModel);
+                    var login = LogInNurseScreen();
+                    login.LogIn(
+                        modifier = modifier,
+                        nurseViewModel = nurseViewModel
+                    )
                 }
             }
         }
     }
 }
-
+/*
 @Composable
 fun HomeScreen() {
     Scaffold(
@@ -148,6 +158,6 @@ fun HomeScreenPreview() {
     ProyectoTestTheme {
         HomeScreen()
     }
-}
 
 
+}*/

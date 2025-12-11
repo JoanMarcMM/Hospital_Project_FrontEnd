@@ -4,7 +4,7 @@
     <string name="log_in_username_field">Username</string>
     <string name="log_in_password_field">Password</string>
     <string name="log_in_button">LOG IN</string>
-    <string name="log_in_register_button">Don't have a user? REGISTER</string>
+    <string name="log_in_register_button">Dont have a user? REGISTER</string>
     <string name="log_in_error">Incorrect username or password</string>
     <string name="logged_in_greeting">Hello %1$s ! You are logged in !</string>
     <string name="logged_in_id">Id: %1$s</string>
