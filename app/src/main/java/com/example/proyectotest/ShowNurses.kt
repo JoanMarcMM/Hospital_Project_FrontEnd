@@ -103,7 +103,7 @@ fun NurseListHeader(onBackClicked: () -> Unit) {
  * Composable para la tarjeta individual de un enfermero.
  */
 @Composable
-fun NurseCard(nurse: Nurses) {
+fun NurseCard(nurse: Nurse) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
