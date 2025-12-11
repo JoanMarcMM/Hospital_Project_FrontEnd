@@ -11,20 +11,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoTest">
-        <activity android:name=".LogIn" />
-        <activity android:name=".SearchByName" />
-        <activity android:name="ShowNurses" />
+
+
         <activity
-            android:name=".Homepage"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ProyectoTest">
+            android:name=".SearchByName"
+            android:exported="false" />
+
+        <activity
+            android:name=".ShowNurses"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".LogInNurseScreen"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
