@@ -24,11 +24,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,10 +46,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.example.proyectotest.R
 
 class ShowNurses : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,41 +68,40 @@ val GreenBlueGradient = Brush.Companion.linearGradient(
     end = Offset(1000f, 1000f)
 )
 
-val ScreenBackgroundColor = Color(0xFFE0F7FA)
+val ScreenBackgroundColor = Color(0xFFBBDEFB)
 
 
 /**
- * Composable para la cabecera (Header).
+ * Composable para la cabecera (Header) - Solo contiene el texto centrado.
+ * (No se requiere modificar)
  */
 @Composable
-fun NurseListHeader(onBackClicked: () -> Unit) {
-    Row(
+fun NurseListHeader() {
+    Spacer(modifier = Modifier.height(24.dp))
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        IconButton(onClick = onBackClicked) {
-            Icon(
-                imageVector = Icons.Default.Home,
-                contentDescription = stringResource(id = R.string.homepage),
-                tint = Color.Companion.Black
-            )
-        }
         Text(
-            text = "List of Nurses",
-            fontSize = 40.sp,
-            fontWeight = FontWeight.ExtraBold,
-            style = LocalTextStyle.current.copy(
-                brush = GreenBlueGradient
-            )
+            text = "HOSPITAL NURSES",
+            style = MaterialTheme.typography.headlineLarge.copy(
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 32.sp
+            ),
+            color = Color.Black,
+            fontFamily = FontFamily.SansSerif
         )
     }
+
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 /**
  * Composable para la tarjeta individual de un enfermero.
+ * (No se requiere modificar)
  */
 @Composable
 fun NurseCard(nurse: Nurses) {
@@ -169,54 +172,49 @@ fun NurseCard(nurse: Nurses) {
 @Composable
 fun NurseListScreen()  {
     val context = LocalContext.current
-    // Datos de ejemplo
     val nurses = listOf(
-        Nurses(name = "Marvin Marciano", imageId = R.drawable.marvin),
+        Nurses(name = "Marvin The King", imageId = R.drawable.marvin),
         Nurses(name = "GianMarc Motis", imageId = R.drawable.motis),
-        Nurses(name = "Mario Hermano", imageId = R.drawable.mario),
-        Nurses(name = "Rodrigo Caldo Sopero", imageId = R.drawable.rodrigo)
+        Nurses(name = "Mario El Italiano", imageId = R.drawable.mario),
+        Nurses(name = "Rodrigo Ferxxo Calderas", imageId = R.drawable.rodrigo),
     )
-
 
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(ScreenBackgroundColor),
-        topBar = {
-            Surface(color = Color.Companion.Transparent) {
-                NurseListHeader(onBackClicked = {
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
                     val intent = Intent(context, Homepage::class.java)
                     context.startActivity(intent)
-                })
+                },
+                modifier = Modifier.padding(start = 16.dp),
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Home redirection"
+                )
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Start
     ){ paddingValues ->
-        Box(
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            NurseListHeader()
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(nurses) { nurse ->
-                    NurseCard(nurse = nurse) //
+                    NurseCard(nurse = nurse)
                 }
                 item {
-                    Spacer(modifier = Modifier.height(32.dp))
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.logo_hospital),
-                            contentDescription = "Logo Hospital y Wellness Center",
-                            modifier = Modifier.size(325.dp)
-                        )
-                    }
-
                     Spacer(modifier = Modifier.height(32.dp))
                 }
             }
