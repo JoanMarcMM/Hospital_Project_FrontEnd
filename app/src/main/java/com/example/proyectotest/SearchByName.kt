@@ -44,7 +44,7 @@ class SearchByName : ComponentActivity() {
                 ) {
 
 
-                    val viewModel = SearchViewMode()
+                    val viewModel = NurseViewModel()
 
 
                     SearchView(viewModel)
@@ -55,7 +55,7 @@ class SearchByName : ComponentActivity() {
 }
 @Composable
 fun SearchView(
-    viewModel: SearchViewMode
+    viewModel: NurseViewModel
 ){
     val context = LocalContext.current
     var textSearch by remember { mutableStateOf("") }

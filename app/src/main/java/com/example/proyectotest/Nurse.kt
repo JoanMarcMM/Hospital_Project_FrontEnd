@@ -1,12 +1,11 @@
 package com.example.proyectotest
 
-import androidx.compose.runtime.mutableStateListOf
-
-data class Nurses(
+data class Nurse(
     val id: Long,
     val name: String,
     val lastname: String,
     val user: String,
     val pw: String,
-    val imageId: Int
+    val imageId: Int,
+
 )

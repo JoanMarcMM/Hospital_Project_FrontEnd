@@ -41,7 +41,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 
 class LogIn : ComponentActivity() {
@@ -61,7 +60,7 @@ class LogIn : ComponentActivity() {
 
 @SuppressLint("NotConstructor")
 @Composable
-fun LogIn(modifier: Modifier = Modifier) {
+fun LogIn(modifier: Modifier = Modifier, nurseViewModel: NurseViewModel ) {
     val context = LocalContext.current
     var user by remember { mutableStateOf("")}
     var pw by remember { mutableStateOf("")}
@@ -79,7 +78,7 @@ fun LogIn(modifier: Modifier = Modifier) {
             modifier = Modifier.matchParentSize()
         )
         if(loggedIn==true){
-            LoggedIn(user,pw)
+
         }else{
             Column(
                 modifier = Modifier.padding(horizontal = 20.dp )
@@ -110,12 +109,13 @@ fun LogIn(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        if (CheckUser(user, pw)) {
-                            loggedIn=true
-                            logInError=false
-                        } else {
-                            logInError=true
-                            loggedIn=false
+                        if(nurseViewModel.logInNurse(user,pw)){
+                            logInError=false;
+                            loggedIn=true;
+                            //To be implemented navigation
+                        }else{
+                            logInError=true;
+                            loggedIn=false;
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
@@ -127,18 +127,17 @@ fun LogIn(modifier: Modifier = Modifier) {
                     Text(text=stringResource(id = R.string.log_in_button))
                 }
                 Spacer(modifier = modifier.height(400.dp))
-                FloatingActionButton(
+                Button(
                     onClick = {
-                        val intent = Intent( context,  Homepage::class.java)
-                        context.startActivity(intent)
+                        //To be implemented navigation
                     },
-                    modifier = Modifier.padding(start = 16.dp),
-                    containerColor = colorResource(id = R.color.black)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Home,
-                        contentDescription = "Homepage"
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(id = R.color.black),
+                        contentColor   = colorResource(id = R.color.white)
                     )
+                ) {
+                    Text(text=stringResource(id = R.string.log_in_register_button))
                 }
 
             }
@@ -152,18 +151,10 @@ fun LogIn(modifier: Modifier = Modifier) {
 
 }
 
-fun  CheckUser(user:String,pw:String):Boolean{
-
-    if(user=="nurse1"&&pw=="pw1234"){
-        return true
-    }else{
-        return false
-    }
-
-}
 
 
 
+/*
 @Composable
 fun LoggedIn(user:String,pw:String) {
     var loggedOut by remember { mutableStateOf(false) }
@@ -242,8 +233,9 @@ fun LoggedIn(user:String,pw:String) {
 
     }
 }
-}
 
+ */
+    }
 
 
 
