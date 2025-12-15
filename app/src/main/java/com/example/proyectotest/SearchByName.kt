@@ -21,6 +21,7 @@ import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
@@ -59,6 +60,8 @@ fun SearchView(
 ){
     val context = LocalContext.current
     var textSearch by remember { mutableStateOf("") }
+    // Observamos la lista de forma segura. Si es nula, usamos una lista vacía.
+    val nurses by viewModel.nurseList.observeAsState(initial = emptyList())
 
     Scaffold(
         floatingActionButton = {
@@ -115,7 +118,8 @@ fun SearchView(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(viewModel.nurseList.value!!.filter {
+                    // Usamos la lista segura que observamos antes
+                    items(nurses.filter {
                         it.name.lowercase().contains(textSearch, ignoreCase = true)
                     }
                     ) { nurse ->
