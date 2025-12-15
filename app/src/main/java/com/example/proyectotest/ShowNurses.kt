@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
-class ShowNurses : ComponentActivity() {
+/*class ShowNurses : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -58,6 +58,8 @@ class ShowNurses : ComponentActivity() {
         }
     }
 }
+*/
+
 
 
 val GreenBlueGradient = Brush.Companion.linearGradient(
@@ -169,7 +171,7 @@ fun NurseCard(nurse: Nurse) {
  * Composable de la pantalla principal que combina la cabecera y la lista.
  */
 @Composable
-fun NurseListScreen()  {
+fun NurseListScreen(onNavigateBack: () -> Unit)  {
     val context = LocalContext.current
     // Obtenemos la lista real desde nuestro objeto central (NurseDataHolder)
     val nurses by NurseDataHolder.nurseList.observeAsState(initial = emptyList())
@@ -182,8 +184,7 @@ fun NurseListScreen()  {
         topBar = {
             Surface(color = Color.Companion.Transparent) {
                 NurseListHeader(onBackClicked = {
-                    val intent = Intent(context, Homepage::class.java)
-                    context.startActivity(intent)
+                    onNavigateBack()
                 })
             }
         }
