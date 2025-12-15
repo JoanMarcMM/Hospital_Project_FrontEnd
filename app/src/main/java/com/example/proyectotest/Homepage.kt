@@ -100,7 +100,7 @@ fun AppNavigation(nurseViewModel: NurseViewModel) {
                 modifier = Modifier,
                 nurseViewModel = nurseViewModel,
                 // Le pasamos la función de navegación (viajar a ShowNurses o Register)
-                onLoginSuccess = { navController.navigate(Routes.SHOW_NURSES) },
+                onLoginSuccess = { navController.navigate(Routes.HOME) },
                 onRegisterClicked = { navController.navigate(Routes.REGISTER) }
             )
         }
@@ -111,8 +111,8 @@ fun AppNavigation(nurseViewModel: NurseViewModel) {
                 viewModel = nurseViewModel,
                 // Después del registro, navegamos a la lista de enfermeras y limpiamos la pila
                 onRegistrationSuccess = {
-                    navController.navigate(Routes.SHOW_NURSES) {
-                        popUpTo(Routes.LOGIN) { inclusive = true } // Elimina Login de la pila
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = true } // Elimina Login de la pila
                     }
                 }
             )
@@ -122,8 +122,8 @@ fun AppNavigation(nurseViewModel: NurseViewModel) {
         composable(Routes.SHOW_NURSES) {
             NurseListScreen(
                 onNavigateBack = {
-                    navController.navigate(Routes.LOGIN) {
-                        popUpTo(Routes.LOGIN) { inclusive = true } // Limpiamos la pila y volvemos a Login
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.HOME) { inclusive = true } // Limpiamos la pila y volvemos a Login
                     }
                 }
             )
