@@ -1,6 +1,5 @@
 package com.example.proyectotest
 
-
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -26,9 +25,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -47,19 +48,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.style.TextAlign
 
-/*class ShowNurses : ComponentActivity() {
+
+// NOTA IMPORTANTE: Para que esto compile, debes asegurarte de que Nurse, NurseDataHolder y
+// R.drawable.logo_hospital (o cualquier recurso usado) existan en tu proyecto.
+
+class ShowNurses : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NurseListScreen()
+            // NOTA: Si no estás usando un NavController en tu actividad principal,
+            // puedes cambiar la implementación de onNavigateBack
+            NurseListScreen(onNavigateBack = {
+                // Opción 1: Si quieres usar el Intent directo como en el código base original:
+                val intent = Intent(this, Homepage::class.java)
+                startActivity(intent)
+
+                // Opción 2: Si usas NavController (reemplaza la Opción 1 si es tu caso):
+                // navController.popBackStack() // O la lógica de navegación que uses para ir a Home
+            })
         }
     }
 }
-*/
-
 
 
 val GreenBlueGradient = Brush.Companion.linearGradient(
@@ -73,36 +85,31 @@ val ScreenBackgroundColor = Color(0xFFE0F7FA)
 
 /**
  * Composable para la cabecera (Header).
+ * ADAPTADO: Título centrado y de color negro sólido.
  */
 @Composable
-fun NurseListHeader(onBackClicked: () -> Unit) {
+fun NurseListHeader() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.Center // Centramos el contenido
     ) {
-        IconButton(onClick = onBackClicked) {
-            Icon(
-                imageVector = Icons.Default.Home,
-                contentDescription = stringResource(id = R.string.homepage),
-                tint = Color.Companion.Black
-            )
-        }
         Text(
             text = "List of Nurses",
             fontSize = 40.sp,
             fontWeight = FontWeight.ExtraBold,
-            style = LocalTextStyle.current.copy(
-                brush = GreenBlueGradient
-            )
+            color = Color.Black, // Color de texto negro sólido
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
     }
+    Divider(modifier = Modifier.padding(horizontal = 16.dp), color = Color.LightGray)
 }
 
 /**
- * Composable para la tarjeta individual de un enfermero.
+ * Composable para la tarjeta individual de un enfermero (Sin cambios).
  */
 @Composable
 fun NurseCard(nurse: Nurse) {
@@ -169,13 +176,11 @@ fun NurseCard(nurse: Nurse) {
 
 /**
  * Composable de la pantalla principal que combina la cabecera y la lista.
+ * ADAPTADO: Usa FloatingActionButton para la navegación y elimina la imagen del logo.
  */
 @Composable
 fun NurseListScreen(onNavigateBack: () -> Unit)  {
-    val context = LocalContext.current
-    // Obtenemos la lista real desde nuestro objeto central (NurseDataHolder)
     val nurses by NurseDataHolder.nurseList.observeAsState(initial = emptyList())
-
 
     Scaffold(
         modifier = Modifier
@@ -183,11 +188,23 @@ fun NurseListScreen(onNavigateBack: () -> Unit)  {
             .background(ScreenBackgroundColor),
         topBar = {
             Surface(color = Color.Companion.Transparent) {
-                NurseListHeader(onBackClicked = {
-                    onNavigateBack()
-                })
+                NurseListHeader()
             }
-        }
+        },
+        // Botón de Home (FAB)
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onNavigateBack, // Usa la función pasada para navegar
+                modifier = Modifier.padding(start = 16.dp),
+                containerColor = MaterialTheme.colorScheme.primary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = stringResource(R.string.homepage)
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Start
     ){ paddingValues ->
         Box(
             modifier = Modifier
@@ -199,26 +216,13 @@ fun NurseListScreen(onNavigateBack: () -> Unit)  {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(nurses) { nurse ->
-                    NurseCard(nurse = nurse) //
+                    NurseCard(nurse = nurse)
                 }
                 item {
                     Spacer(modifier = Modifier.height(32.dp))
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.logo_hospital),
-                            contentDescription = "Logo Hospital y Wellness Center",
-                            modifier = Modifier.size(325.dp)
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(32.dp))
+                    // La imagen del logo que estaba aquí ha sido eliminada.
                 }
             }
         }
-
     }
 }
