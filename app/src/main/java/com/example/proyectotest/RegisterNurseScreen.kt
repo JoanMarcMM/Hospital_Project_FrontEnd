@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RegisterScreen(viewModel: NurseViewModel, onRegistrationSuccess: () -> Unit) {
+fun RegisterScreen(viewModel: NurseViewModel) {
     // Variables de estado para los campos de texto
     var name by remember { mutableStateOf("") }
     var lastname by remember { mutableStateOf("") }
@@ -99,7 +99,8 @@ fun RegisterScreen(viewModel: NurseViewModel, onRegistrationSuccess: () -> Unit)
                 onClick = {
                     if (name.isNotEmpty() && username.isNotEmpty()) {
                         viewModel.registerNewNurse(name, lastname, username, password)
-                        onRegistrationSuccess()
+                        val intent = Intent(context, ShowNurses::class.java)
+                        context.startActivity(intent)
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
@@ -132,6 +133,6 @@ fun RegisterTextField(value: String, onValueChange: (String) -> Unit, label: Str
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RegisterScreenPreview() {
-    //val viewModelDePrueba = NurseViewModel()
-
+    val viewModelDePrueba = NurseViewModel()
+    RegisterScreen(viewModel = viewModelDePrueba)
 }

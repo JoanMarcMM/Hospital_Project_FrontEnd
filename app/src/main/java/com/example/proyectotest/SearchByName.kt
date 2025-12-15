@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 
-/*class SearchByName : ComponentActivity() {
+class SearchByName : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,12 +53,9 @@ import androidx.compose.ui.tooling.preview.Preview
         }
     }
 }
-*/
-
 @Composable
 fun SearchView(
-    viewModel: NurseViewModel,
-    onNavigateBack: () -> Unit
+    viewModel: NurseViewModel
 ){
     val context = LocalContext.current
     var textSearch by remember { mutableStateOf("") }
@@ -67,7 +64,8 @@ fun SearchView(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    onNavigateBack()
+                    val intent = Intent(context, Homepage::class.java)
+                    context.startActivity(intent)
                 },
                 modifier = Modifier.padding(start = 16.dp),
                 containerColor = MaterialTheme.colorScheme.primary

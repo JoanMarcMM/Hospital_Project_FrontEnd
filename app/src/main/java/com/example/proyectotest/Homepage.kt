@@ -1,5 +1,5 @@
 package com.example.proyectotest
-import androidx.lifecycle.viewmodel.compose.viewModel
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -49,15 +49,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.example.proyectotest.ShowNurses
 import com.example.proyectotest.RegisterScreen
 import com.example.proyectotest.NurseViewModel
-import com.example.proyectotest.LogIn // de LogInNurseScreen.kt
-import com.example.proyectotest.NurseListScreen // de ShowNurses.kt
-import com.example.proyectotest.SearchView // de SearchByName.kt
-
+import com.example.proyectotest.LogInNurseScreen
 
 class Homepage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,89 +64,22 @@ class Homepage : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    val nurseViewModel: NurseViewModel = viewModel()
-                    AppNavigation(nurseViewModel)
-                    /*var modifier = Modifier;
+                    var nurseViewModel = NurseViewModel();
+                    var modifier = Modifier;
                     //LogInNurseScreen.LogIn(modifier,nurseViewModel);
                     var login = LogInNurseScreen();
                     login.LogIn(
                         modifier = modifier,
                         nurseViewModel = nurseViewModel
                     )
-                    */
-
                 }
             }
         }
     }
 }
+/*
 @Composable
-fun AppNavigation(nurseViewModel: NurseViewModel) {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = Routes.LOGIN // Inicia en la pantalla de Login
-    ) {
-        // --- 1. Pantalla de Login ---
-        composable(Routes.LOGIN) {
-            // Reemplazamos la clase LogInNurseScreen con su Composable LogIn
-            LogIn(
-                modifier = Modifier,
-                nurseViewModel = nurseViewModel,
-                // Le pasamos la función de navegación (viajar a ShowNurses o Register)
-                onLoginSuccess = { navController.navigate(Routes.SHOW_NURSES) },
-                onRegisterClicked = { navController.navigate(Routes.REGISTER) }
-            )
-        }
-
-        // --- 2. Pantalla de Registro ---
-        composable(Routes.REGISTER) {
-            RegisterScreen(
-                viewModel = nurseViewModel,
-                // Después del registro, navegamos a la lista de enfermeras y limpiamos la pila
-                onRegistrationSuccess = {
-                    navController.navigate(Routes.SHOW_NURSES) {
-                        popUpTo(Routes.LOGIN) { inclusive = true } // Elimina Login de la pila
-                    }
-                }
-            )
-        }
-
-        // --- 3. Pantalla de Lista de Enfermeras ---
-        composable(Routes.SHOW_NURSES) {
-            NurseListScreen(
-                onNavigateBack = {
-                    navController.navigate(Routes.LOGIN) {
-                        popUpTo(Routes.LOGIN) { inclusive = true } // Limpiamos la pila y volvemos a Login
-                    }
-                }
-            )
-        }
-
-        // --- 4. Pantalla de Búsqueda ---
-        composable(Routes.SEARCH_BY_NAME) {
-            SearchView(
-                viewModel = nurseViewModel,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        // --- 5. Pantalla de Inicio (Opcional, si quieres usar la HomeScreen original) ---
-        composable(Routes.HOME) {
-            HomeScreen(
-                onLoginClicked = { navController.navigate(Routes.LOGIN) },
-                onShowNursesClicked = { navController.navigate(Routes.SHOW_NURSES) },
-                onSearchClicked = { navController.navigate(Routes.SEARCH_BY_NAME) }
-            )
-        }
-    }
-}
-
-@Composable
-fun HomeScreen(onLoginClicked: () -> Unit,
-               onShowNursesClicked: () -> Unit,
-               onSearchClicked: () -> Unit) {
+fun HomeScreen() {
     Scaffold(
     ) { innerPadding ->
         val context = LocalContext.current
@@ -184,7 +112,8 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                 text = stringResource(R.string.login),
                 onClick = {
                     println("Login presionado")
-                    onLoginClicked()
+                    val intent = Intent(context, LogIn::class.java)
+                    context.startActivity(intent)
                 }
             )
 
@@ -194,7 +123,8 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                 text = stringResource(R.string.display_all_nurses),
                 onClick = {
                     println("Display all nurses presionado")
-                    onShowNursesClicked()
+                    val intent = Intent(context, ShowNurses::class.java)
+                    context.startActivity(intent)
                 }
             )
 
@@ -204,7 +134,8 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                 text = stringResource(R.string.search_nurse_by_name),
                 onClick = {
                     println("Search nurse by name presionado")
-                    onSearchClicked()
+                    val intent = Intent(context, SearchByName::class.java)
+                    context.startActivity(intent)
                 }
             )
         }
@@ -225,11 +156,8 @@ fun AppButton(text: String, onClick: () -> Unit) {
 @Composable
 fun HomeScreenPreview() {
     ProyectoTestTheme {
-        HomeScreen(
-            onLoginClicked = { /* No hace nada en Preview */ },
-            onShowNursesClicked = { /* No hace nada en Preview */ },
-            onSearchClicked = { /* No hace nada en Preview */ })
+        HomeScreen()
     }
 
 
-}
+}*/
