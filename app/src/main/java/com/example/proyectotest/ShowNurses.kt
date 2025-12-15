@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
 
 
-class ShowNurses : ComponentActivity() {
+/*class ShowNurses : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -60,6 +60,8 @@ class ShowNurses : ComponentActivity() {
         }
     }
 }
+*/
+
 
 
 val GreenBlueGradient = Brush.Companion.linearGradient(
@@ -169,7 +171,7 @@ fun NurseCard(nurse: Nurse) {
  * ADAPTADO: Botón de Home (FAB) y eliminado de la imagen de logo.
  */
 @Composable
-fun NurseListScreen()  {
+fun NurseListScreen(onNavigateBack: () -> Unit)  {
     val context = LocalContext.current
     val nurses by NurseDataHolder.nurseList.observeAsState(initial = emptyList())
 
@@ -180,24 +182,9 @@ fun NurseListScreen()  {
             .background(ScreenBackgroundColor),
         topBar = {
             Surface(color = Color.Companion.Transparent) {
-                // Ya no pasamos la función de clic, pues la navegación se hace con el FAB
-                NurseListHeader()
-            }
-        },
-        // 1. ADAPTACIÓN: Botón de Home (FAB)
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    val intent = Intent(context, Homepage::class.java)
-                    context.startActivity(intent)
-                },
-                modifier = Modifier.padding(start = 16.dp),
-                containerColor = MaterialTheme.colorScheme.primary
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = stringResource(R.string.homepage)
-                )
+                NurseListHeader(onBackClicked = {
+                    onNavigateBack()
+                })
             }
         },
         floatingActionButtonPosition = FabPosition.Start
