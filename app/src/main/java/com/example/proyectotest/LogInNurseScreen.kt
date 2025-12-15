@@ -34,9 +34,25 @@ import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.ui.res.stringResource
 
 
+class LogInNurseScreen : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            ProyectoTestTheme {
+                val nurseViewModel = NurseViewModel();
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
+                    var modifier = Modifier;
+                    LogIn(modifier, nurseViewModel);
+
+                }
+            }
+        }
+    }
 
 @Composable
-fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: () -> Unit, onRegisterClicked: () -> Unit ) {
+fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel ) {
     val context = LocalContext.current
     var user by remember { mutableStateOf("")}
     var pw by remember { mutableStateOf("")}
@@ -88,7 +104,7 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                         if(nurseViewModel.logInNurse(user,pw)){
                             logInError=false;
                             loggedIn=true;
-                            onLoginSuccess()//To be implemented navigation
+                            //To be implemented navigation
                         }else{
                             logInError=true;
                             loggedIn=false;
@@ -105,7 +121,7 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                 Spacer(modifier = modifier.height(400.dp))
                 Button(
                     onClick = {
-                        onRegisterClicked()//To be implemented navigation
+                        //To be implemented navigation
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
@@ -211,7 +227,7 @@ fun LoggedIn(user:String,pw:String) {
 }
 
  */
-
+    }
 
 
 

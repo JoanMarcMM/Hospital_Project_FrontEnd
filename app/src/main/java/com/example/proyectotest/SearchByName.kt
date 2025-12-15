@@ -21,6 +21,7 @@ import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
@@ -29,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 
-/*class SearchByName : ComponentActivity() {
+class SearchByName : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,21 +54,21 @@ import androidx.compose.ui.tooling.preview.Preview
         }
     }
 }
-*/
-
 @Composable
 fun SearchView(
-    viewModel: NurseViewModel,
-    onNavigateBack: () -> Unit
+    viewModel: NurseViewModel
 ){
     val context = LocalContext.current
     var textSearch by remember { mutableStateOf("") }
+    // Observamos la lista de forma segura. Si es nula, usamos una lista vacía.
+    val nurses by viewModel.nurseList.observeAsState(initial = emptyList())
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    onNavigateBack()
+                    val intent = Intent(context, Homepage::class.java)
+                    context.startActivity(intent)
                 },
                 modifier = Modifier.padding(start = 16.dp),
                 containerColor = MaterialTheme.colorScheme.primary
@@ -117,7 +118,8 @@ fun SearchView(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(viewModel.nurseList.value!!.filter {
+                    // Usamos la lista segura que observamos antes
+                    items(nurses.filter {
                         it.name.lowercase().contains(textSearch, ignoreCase = true)
                     }
                     ) { nurse ->
