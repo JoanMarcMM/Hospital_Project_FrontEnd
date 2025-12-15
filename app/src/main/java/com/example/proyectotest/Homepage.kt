@@ -1,5 +1,6 @@
 package com.example.proyectotest
 
+import androidx.lifecycle.viewmodel.compose.viewModel
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -49,10 +50,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.proyectotest.ShowNurses
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.proyectotest.RegisterScreen
 import com.example.proyectotest.NurseViewModel
-import com.example.proyectotest.LogInNurseScreen
+import com.example.proyectotest.LogIn // de LogInNurseScreen.kt
+import com.example.proyectotest.NurseListScreen // de ShowNurses.kt
+import com.example.proyectotest.SearchView // de SearchByName.kt
 
 class Homepage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,20 +69,23 @@ class Homepage : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    var nurseViewModel = NurseViewModel();
-                    var modifier = Modifier;
+                    val nurseViewModel: NurseViewModel = viewModel()
+                    AppNavigation(nurseViewModel)
+                    /*var modifier = Modifier;
                     //LogInNurseScreen.LogIn(modifier,nurseViewModel);
                     var login = LogInNurseScreen();
                     login.LogIn(
                         modifier = modifier,
                         nurseViewModel = nurseViewModel
                     )
+                    */
+
                 }
             }
         }
     }
 }
-/*
+
 @Composable
 fun AppNavigation(nurseViewModel: NurseViewModel) {
     val navController = rememberNavController()
@@ -92,7 +100,7 @@ fun AppNavigation(nurseViewModel: NurseViewModel) {
             LogIn(
                 modifier = Modifier,
                 nurseViewModel = nurseViewModel,
-                // Le pasamos la función de navegación (viajar a ShowNurses o Register)
+                // Le pasamos la función de navegación (viajar a Homepage o Register)
                 onLoginSuccess = { navController.navigate(Routes.HOME) },
                 onRegisterClicked = { navController.navigate(Routes.REGISTER) }
             )
@@ -102,7 +110,7 @@ fun AppNavigation(nurseViewModel: NurseViewModel) {
         composable(Routes.REGISTER) {
             RegisterScreen(
                 viewModel = nurseViewModel,
-                // Después del registro, navegamos a la lista de enfermeras y limpiamos la pila
+                // Después del registro, navegamos a la homepage y limpiamos la pila
                 onRegistrationSuccess = {
                     navController.navigate(Routes.HOME) {
                         popUpTo(Routes.HOME) { inclusive = true } // Elimina Login de la pila
@@ -177,8 +185,7 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                 text = stringResource(R.string.login),
                 onClick = {
                     println("Login presionado")
-                    val intent = Intent(context, LogIn::class.java)
-                    context.startActivity(intent)
+                    onLoginClicked()
                 }
             )
 
@@ -188,8 +195,7 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                 text = stringResource(R.string.display_all_nurses),
                 onClick = {
                     println("Display all nurses presionado")
-                    val intent = Intent(context, ShowNurses::class.java)
-                    context.startActivity(intent)
+                    onShowNursesClicked()
                 }
             )
 
@@ -199,8 +205,7 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                 text = stringResource(R.string.search_nurse_by_name),
                 onClick = {
                     println("Search nurse by name presionado")
-                    val intent = Intent(context, SearchByName::class.java)
-                    context.startActivity(intent)
+                    onSearchClicked()
                 }
             )
         }
@@ -221,8 +226,11 @@ fun AppButton(text: String, onClick: () -> Unit) {
 @Composable
 fun HomeScreenPreview() {
     ProyectoTestTheme {
-        HomeScreen()
+        HomeScreen(
+            onLoginClicked = { /* No hace nada en Preview */ },
+            onShowNursesClicked = { /* No hace nada en Preview */ },
+            onSearchClicked = { /* No hace nada en Preview */ })
     }
 
 
-}*/
+}

@@ -21,7 +21,6 @@ import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
@@ -30,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 
-class SearchByName : ComponentActivity() {
+/*class SearchByName : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,21 +53,21 @@ class SearchByName : ComponentActivity() {
         }
     }
 }
+*/
+
 @Composable
 fun SearchView(
-    viewModel: NurseViewModel
+    viewModel: NurseViewModel,
+    onNavigateBack: () -> Unit
 ){
     val context = LocalContext.current
     var textSearch by remember { mutableStateOf("") }
-    // Observamos la lista de forma segura. Si es nula, usamos una lista vacía.
-    val nurses by viewModel.nurseList.observeAsState(initial = emptyList())
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    val intent = Intent(context, Homepage::class.java)
-                    context.startActivity(intent)
+                    onNavigateBack()
                 },
                 modifier = Modifier.padding(start = 16.dp),
                 containerColor = MaterialTheme.colorScheme.primary
@@ -81,83 +80,82 @@ fun SearchView(
         },
         floatingActionButtonPosition = FabPosition.Start
     ) { paddingValues ->
-            Column(
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+
+            TextField(
+                value = textSearch,
+                onValueChange = { textSearch = it },
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-
-                TextField(
-                    value = textSearch,
-                    onValueChange = { textSearch = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(60.dp),
-                    placeholder = {
-                        Text(text = stringResource(R.string.name_to_search))
-                    },
-                    maxLines = 1,
-                    singleLine = true,
-                    textStyle = TextStyle(
-                        color = colorResource(id = R.color.black),
-                        fontSize = 20.sp
-                    ),
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = null
-                        )
-                    },
-                    shape = RoundedCornerShape(8.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = colorResource(id = R.color.transparent),
-                        unfocusedIndicatorColor = colorResource(id = R.color.transparent)
+                    .fillMaxWidth()
+                    .padding(60.dp),
+                placeholder = {
+                    Text(text = stringResource(R.string.name_to_search))
+                },
+                maxLines = 1,
+                singleLine = true,
+                textStyle = TextStyle(
+                    color = colorResource(id = R.color.black),
+                    fontSize = 20.sp
+                ),
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null
                     )
+                },
+                shape = RoundedCornerShape(8.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = colorResource(id = R.color.transparent),
+                    unfocusedIndicatorColor = colorResource(id = R.color.transparent)
                 )
+            )
 
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    // Usamos la lista segura que observamos antes
-                    items(nurses.filter {
-                        it.name.lowercase().contains(textSearch, ignoreCase = true)
-                    }
-                    ) { nurse ->
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(viewModel.nurseList.value!!.filter {
+                    it.name.lowercase().contains(textSearch, ignoreCase = true)
+                }
+                ) { nurse ->
 
-                        Row(
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Image(
+                            painter = painterResource(id = nurse.imageId),
+                            contentDescription = context.getString(R.string.foto_de, nurse.name),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-
-                            Image(
-                                painter = painterResource(id = nurse.imageId),
-                                contentDescription = context.getString(R.string.foto_de, nurse.name),
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .clip(CircleShape)
-                            )
-
-                            Spacer(modifier = Modifier.width(16.dp))
-
-
-                            Text(
-                                text = nurse.name,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
-
-                        Divider(
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .padding(vertical = 4.dp)
+                                .size(50.dp)
+                                .clip(CircleShape)
                         )
 
+                        Spacer(modifier = Modifier.width(16.dp))
 
+
+                        Text(
+                            text = nurse.name,
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
+
+                    Divider(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(vertical = 4.dp)
+                    )
+
+
                 }
             }
         }
+    }
 
 }
