@@ -132,6 +132,6 @@ fun RegisterTextField(value: String, onValueChange: (String) -> Unit, label: Str
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RegisterScreenPreview() {
-    val viewModelDePrueba = NurseViewModel()
+    //val viewModelDePrueba = NurseViewModel()
 
 }

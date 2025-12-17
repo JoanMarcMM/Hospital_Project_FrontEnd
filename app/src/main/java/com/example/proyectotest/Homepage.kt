@@ -155,59 +155,70 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                onSearchClicked: () -> Unit) {
     Scaffold(
     ) { innerPadding ->
-        val context = LocalContext.current
-        Column(
+
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
         ) {
-            Text(
-                text = stringResource(R.string.welcome_to_the_hospital),
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 25.sp
-                ),
-                modifier = Modifier.padding(bottom = 32.dp)
-            )
-            //agregar imagen
-            Image(
-                painter = painterResource(id = R.drawable.logo_hospital),
-                contentDescription = stringResource(R.string.logo_del_hospital),
+            Column(
                 modifier = Modifier
-                    .size(350.dp)
-                    .padding(bottom = 48.dp)
-            )
+                    .fillMaxSize()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                Text(
+                    text = stringResource(R.string.welcome_to_the_hospital),
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 25.sp
+                    ),
+                    modifier = Modifier.padding(bottom = 32.dp)
+                )
 
-            AppButton(
-                text = stringResource(R.string.login),
-                onClick = {
-                    println("Login presionado")
-                    onLoginClicked()
+                Image(
+                    painter = painterResource(id = R.drawable.logo_hospital),
+                    contentDescription = stringResource(R.string.logo_del_hospital),
+                    modifier = Modifier
+                        .size(350.dp)
+                        .padding(bottom = 48.dp)
+                )
+
+
+                AppButton(
+                    text = stringResource(R.string.display_all_nurses),
+                    onClick = { onShowNursesClicked() }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                AppButton(
+                    text = stringResource(R.string.search_nurse_by_name),
+                    onClick = { onSearchClicked() }
+                )
+            }
+
+
+            Button(
+                onClick = { onLoginClicked() },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(24.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                    containerColor = Color.Red.copy(alpha = 0.8f)
+                )
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = "Log Out")
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(
+                        painter = painterResource(id = android.R.drawable.ic_lock_power_off),
+                        contentDescription = "Logout"
+                    )
                 }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            AppButton(
-                text = stringResource(R.string.display_all_nurses),
-                onClick = {
-                    println("Display all nurses presionado")
-                    onShowNursesClicked()
-                }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            AppButton(
-                text = stringResource(R.string.search_nurse_by_name),
-                onClick = {
-                    println("Search nurse by name presionado")
-                    onSearchClicked()
-                }
-            )
+            }
         }
     }
 }
