@@ -40,7 +40,6 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
     val context = LocalContext.current
     var user by remember { mutableStateOf("")}
     var pw by remember { mutableStateOf("")}
-    var loggedIn by remember { mutableStateOf(false)}
     var logInError by remember {mutableStateOf(false)}
 
     Box(
@@ -48,14 +47,12 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
             .fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.loginbackground), // tu imagen en res/drawable
+            painter = painterResource(id = R.drawable.loginbackground),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
         )
-        if(loggedIn==true){
 
-        }else{
             Column(
                 modifier = Modifier.padding(horizontal = 20.dp )
                     .padding(vertical = 60.dp),
@@ -87,11 +84,9 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                     onClick = {
                         if(nurseViewModel.logInNurse(user,pw)){
                             logInError=false;
-                            loggedIn=true;
-                            onLoginSuccess()//To be implemented navigation
+                            onLoginSuccess()
                         }else{
                             logInError=true;
-                            loggedIn=false;
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
@@ -105,7 +100,7 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                 Spacer(modifier = modifier.height(400.dp))
                 Button(
                     onClick = {
-                        onRegisterClicked()//To be implemented navigation
+                        onRegisterClicked()
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
@@ -125,7 +120,7 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
 
 
 
-}
+
 
 
 

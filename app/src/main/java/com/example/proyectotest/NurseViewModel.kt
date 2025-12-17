@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-// Objeto Singleton para que la lista sea la misma en toda la app.
 object NurseDataHolder {
     private val initialNurses = listOf(
         Nurse(1, "Mario", "Hermano", "mariobros", "1234", R.drawable.mario),
@@ -25,19 +24,18 @@ object NurseDataHolder {
 
 class NurseViewModel: ViewModel() {
 
-    // El ViewModel ahora usa el Singleton como fuente de datos.
     val nurseList: LiveData<List<Nurse>> = NurseDataHolder.nurseList
 
     fun registerNewNurse(name: String, lastname: String, user: String, pw: String) {
         val newNurse = Nurse(
-            id = System.currentTimeMillis(), // Generamos ID automático
+            id = System.currentTimeMillis(),
             name = name,
             lastname = lastname,
             user = user,
             pw = pw,
-            imageId = R.drawable.nurse_generico // Imagen por defecto
+            imageId = R.drawable.nurse_generico
         )
-        // La lógica de añadir se delega al Singleton.
+
         NurseDataHolder.addNurse(newNurse)
     }
 
