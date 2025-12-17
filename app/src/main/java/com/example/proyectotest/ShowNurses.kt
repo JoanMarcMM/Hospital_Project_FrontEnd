@@ -55,7 +55,7 @@ import androidx.compose.ui.text.style.TextAlign
 // NOTA IMPORTANTE: Para que esto compile, debes asegurarte de que Nurse, NurseDataHolder y
 // R.drawable.logo_hospital (o cualquier recurso usado) existan en tu proyecto.
 
-class ShowNurses : ComponentActivity() {
+/*class ShowNurses : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -72,7 +72,7 @@ class ShowNurses : ComponentActivity() {
         }
     }
 }
-
+*/
 
 val GreenBlueGradient = Brush.Companion.linearGradient(
     colors = listOf(Color(0xFF4CAF50), Color(0xFF2196F3)), // Verde y Azul
