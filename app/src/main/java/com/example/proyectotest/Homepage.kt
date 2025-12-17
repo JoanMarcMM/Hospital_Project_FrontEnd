@@ -57,7 +57,7 @@ import com.example.proyectotest.RegisterScreen
 import com.example.proyectotest.NurseViewModel
 import com.example.proyectotest.LogIn // de LogInNurseScreen.kt
 import com.example.proyectotest.NurseListScreen // de ShowNurses.kt
-import com.example.proyectotest.SearchView // de SearchByName.kt
+import com.example.proyectotest.SearchView // de SearchNurses.kt
 
 class Homepage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,68 +86,8 @@ class Homepage : ComponentActivity() {
     }
 }
 
-@Composable
-fun AppNavigation(nurseViewModel: NurseViewModel) {
-    val navController = rememberNavController()
 
-    NavHost(
-        navController = navController,
-        startDestination = Routes.LOGIN // Inicia en la pantalla de Login
-    ) {
-        // --- 1. Pantalla de Login ---
-        composable(Routes.LOGIN) {
-            // Reemplazamos la clase LogInNurseScreen con su Composable LogIn
-            LogIn(
-                modifier = Modifier,
-                nurseViewModel = nurseViewModel,
-                // Le pasamos la función de navegación (viajar a Homepage o Register)
-                onLoginSuccess = { navController.navigate(Routes.HOME) },
-                onRegisterClicked = { navController.navigate(Routes.REGISTER) }
-            )
-        }
 
-        // --- 2. Pantalla de Registro ---
-        composable(Routes.REGISTER) {
-            RegisterScreen(
-                viewModel = nurseViewModel,
-                // Después del registro, navegamos a la homepage y limpiamos la pila
-                onRegistrationSuccess = {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.HOME) { inclusive = true } // Elimina Login de la pila
-                    }
-                }
-            )
-        }
-
-        // --- 3. Pantalla de Lista de Enfermeras ---
-        composable(Routes.SHOW_NURSES) {
-            NurseListScreen(
-                onNavigateBack = {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.HOME) { inclusive = true } // Limpiamos la pila y volvemos a Login
-                    }
-                }
-            )
-        }
-
-        // --- 4. Pantalla de Búsqueda ---
-        composable(Routes.SEARCH_BY_NAME) {
-            SearchView(
-                viewModel = nurseViewModel,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        // --- 5. Pantalla de Inicio (Opcional, si quieres usar la HomeScreen original) ---
-        composable(Routes.HOME) {
-            HomeScreen(
-                onLoginClicked = { navController.navigate(Routes.LOGIN) },
-                onShowNursesClicked = { navController.navigate(Routes.SHOW_NURSES) },
-                onSearchClicked = { navController.navigate(Routes.SEARCH_BY_NAME) }
-            )
-        }
-    }
-}
 
 @Composable
 fun HomeScreen(onLoginClicked: () -> Unit,
