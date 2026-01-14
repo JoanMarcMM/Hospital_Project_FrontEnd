@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,12 +33,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.proyectotest.ui.theme.ProyectoTestTheme
 import androidx.compose.ui.res.stringResource
-
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: () -> Unit, onRegisterClicked: () -> Unit ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var user by remember { mutableStateOf("")}
     var pw by remember { mutableStateOf("")}
     var logInError by remember {mutableStateOf(false)}
@@ -82,11 +84,15 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        if(nurseViewModel.logInNurse(user,pw)){
-                            logInError=false;
-                            onLoginSuccess()
-                        }else{
-                            logInError=true;
+                        scope.launch {
+                            val ok = nurseViewModel.logInNurse(user, pw)
+
+                            if (ok) {
+                                logInError = false
+                                onLoginSuccess()
+                            } else {
+                                logInError = true
+                            }
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),

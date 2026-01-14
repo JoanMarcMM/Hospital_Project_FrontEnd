@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 object NurseDataHolder {
+
     private val initialNurses = listOf(
         Nurse(1, "Mario", "Hermano", "mariobros", "1234", R.drawable.mario),
         Nurse(2, "Marvin", "Marciano", "marvin_space", "5678", R.drawable.marvin),
@@ -24,7 +25,9 @@ object NurseDataHolder {
 
 class NurseViewModel: ViewModel() {
 
+
     val nurseList: LiveData<List<Nurse>> = NurseDataHolder.nurseList
+
 
     fun registerNewNurse(name: String, lastname: String, user: String, pw: String) {
         val newNurse = Nurse(
@@ -39,15 +42,9 @@ class NurseViewModel: ViewModel() {
         NurseDataHolder.addNurse(newNurse)
     }
 
-    fun logInNurse(user: String, pw: String): Boolean {
-        val list = NurseDataHolder.nurseList.value ?: emptyList()
-
-        for (nurse in list) {
-            if (nurse.user == user && nurse.pw == pw) {
-                return true
-            }
-        }
-        return false
+    suspend fun logInNurse(user: String, pw: String): Boolean {
+        val vm = RemoteViewModel()
+        return vm.login(user, pw)
     }
 }
 
