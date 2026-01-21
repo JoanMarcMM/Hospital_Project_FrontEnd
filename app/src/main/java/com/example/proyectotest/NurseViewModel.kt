@@ -72,18 +72,15 @@ class NurseViewModel: ViewModel() {
 
     suspend fun login(user: String, pw: String): Boolean {
         return try {
-            RetrofitClient.instance.login(LoginRequest(user, pw))
+            val res = RetrofitClient.instance.login(LoginRequest(user, pw))
+            // 👇 esto te dice la verdad
+            android.util.Log.d("LOGIN", "code=${res.code()} body=${res.body()} error=${res.errorBody()?.string()}")
+            res.isSuccessful && (res.body() == true)
         } catch (e: Exception) {
+            android.util.Log.d("LOGIN", "EXCEPTION: ${e.message}", e)
             false
         }
     }
-    suspend fun logInNurse(user: String, pw: String): Boolean {
-        return try {
-            val response = RetrofitClient.instance.getAllNurses()
-            response.any { it.user == user && it.pw == pw }
-        } catch (e: Exception) {
-            false
-        }
-    }
+
 
 }
