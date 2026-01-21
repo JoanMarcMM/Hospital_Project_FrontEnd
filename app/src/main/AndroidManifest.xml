@@ -19,7 +19,8 @@
         android:name=".Homepage"
         android:exported="true"
         android:label="@string/app_name"
-        android:theme="@style/Theme.ProyectoTest">
+        android:theme="@style/Theme.ProyectoTest"
+        android:usesCleartextTraffic="true">
 
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

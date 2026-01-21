@@ -41,6 +41,7 @@ import androidx.navigation.compose.rememberNavController
             // --- 3. Pantalla de Lista de Enfermeras ---
             composable(Routes.SHOW_NURSES) {
                 NurseListScreen(
+                    nurseViewModel = nurseViewModel,
                     onNavigateBack = {
                         navController.navigate(Routes.HOME) {
                             popUpTo(Routes.HOME) { inclusive = true }

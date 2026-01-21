@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -179,8 +180,12 @@ fun NurseCard(nurse: Nurse) {
  * ADAPTADO: Usa FloatingActionButton para la navegación y elimina la imagen del logo.
  */
 @Composable
-fun NurseListScreen(onNavigateBack: () -> Unit)  {
-    val nurses by NurseDataHolder.nurseList.observeAsState(initial = emptyList())
+fun NurseListScreen(nurseViewModel: NurseViewModel, onNavigateBack: () -> Unit)   {
+    val nurses by nurseViewModel.nurseList.observeAsState(initial = emptyList())
+
+    LaunchedEffect(Unit) {
+        nurseViewModel.fetchNursesFromApi()
+    }
 
     Scaffold(
         modifier = Modifier

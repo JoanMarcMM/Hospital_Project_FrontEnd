@@ -3,17 +3,35 @@ package com.example.proyectotest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.proyectotest.NurseDataHolder.initialNurses
+import kotlinx.coroutines.launch
+import android.util.Log // Importante para el Log.d
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.text.orEmpty
+import kotlin.text.toMutableList
+
 
 object NurseDataHolder {
 
-    private val initialNurses = listOf(
+     val initialNurses = listOf(
         Nurse(1, "Mario", "Hermano", "mariobros", "1234", R.drawable.mario),
         Nurse(2, "Marvin", "Marciano", "marvin_space", "5678", R.drawable.marvin),
         Nurse(3, "GianMarc", "Motis", "gmotis", "abcd", R.drawable.motis),
         Nurse(4, "Rodrigo", "Sopero", "rodri_caldo", "xyz", R.drawable.rodrigo)
     )
 
-    private val _nurseList = MutableLiveData<List<Nurse>>(initialNurses)
+
+
+
+}
+
+
+class NurseViewModel: ViewModel() {
+
+    // Iniciamos con la lista del DataHolder
+    private val _nurseList = MutableLiveData<List<Nurse>>(NurseDataHolder.initialNurses)
     val nurseList: LiveData<List<Nurse>> = _nurseList
 
     fun addNurse(nurse: Nurse) {
@@ -21,14 +39,21 @@ object NurseDataHolder {
         currentList.add(nurse)
         _nurseList.value = currentList
     }
-}
 
-class NurseViewModel: ViewModel() {
+    // 1. Obtener enfermeros de la API [cite: 30]
+    fun fetchNursesFromApi() {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.instance.getAllNurses()
+                _nurseList.postValue(response)
+            } catch (e: Exception) {
+                Log.e("API_ERROR", "Error: ${e.message}")
+                _nurseList.postValue(emptyList())
+            }
+        }
+    }
 
-
-    val nurseList: LiveData<List<Nurse>> = NurseDataHolder.nurseList
-
-
+    // 2. Registro local (añade a la lista actual)
     fun registerNewNurse(name: String, lastname: String, user: String, pw: String) {
         val newNurse = Nurse(
             id = System.currentTimeMillis(),
@@ -39,12 +64,21 @@ class NurseViewModel: ViewModel() {
             imageId = R.drawable.nurse_generico
         )
 
-        NurseDataHolder.addNurse(newNurse)
+        // Actualizamos la lista del LiveData para que la UI se refresque
+        val currentList = _nurseList.value.orEmpty().toMutableList()
+        currentList.add(newNurse)
+        _nurseList.value = currentList
     }
 
+    // 3. Intento de Login (Simplificado según tu estructura de Retrofit) [cite: 82, 141]
     suspend fun logInNurse(user: String, pw: String): Boolean {
-        val vm = RemoteViewModel()
-        return vm.login(user, pw)
+        return try {
+            // Aquí deberías llamar a un endpoint de login real en tu NurseApiEndpoints
+            // Por ahora simulamos éxito si la red responde
+            val response = RetrofitClient.instance.getAllNurses()
+            response.any { it.user == user && it.pw == pw }
+        } catch (e: Exception) {
+            false
+        }
     }
 }
-
