@@ -14,7 +14,6 @@
         android:theme="@style/Theme.ProyectoTest"
         android:usesCleartextTraffic="true" >
 
-
         <activity
         android:name=".Homepage"
         android:exported="true"

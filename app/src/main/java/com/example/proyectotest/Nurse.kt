@@ -6,6 +6,4 @@ data class Nurse(
     val lastname: String,
     val user: String,
     val pw: String,
-    val imageId: Int,
-
 )

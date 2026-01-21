@@ -1,10 +1,17 @@
 package com.example.proyectotest
 
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 object NurseDataHolder {
+    /*
     private val initialNurses = listOf(
         Nurse(1, "Mario", "Hermano", "mariobros", "1234", R.drawable.mario),
         Nurse(2, "Marvin", "Marciano", "marvin_space", "5678", R.drawable.marvin),
@@ -20,12 +27,34 @@ object NurseDataHolder {
         currentList.add(nurse)
         _nurseList.value = currentList
     }
+    */
 }
 
 class NurseViewModel: ViewModel() {
 
-    val nurseList: LiveData<List<Nurse>> = NurseDataHolder.nurseList
+    class NurseViewModel : ViewModel() {
+        var nurseList by mutableStateOf<List<Nurse>>(emptyList())
+        var isLoading by mutableStateOf(false)
 
+        fun fetchNurses() {
+            viewModelScope.launch {
+                isLoading = true
+                try {
+                    val response = Retrofit.apiService.getNurses()
+                    if (response.isSuccessful) {
+                        nurseList = response.body() ?: emptyList()
+                    } else {
+                        // Manejar error de servidor
+                    }
+                } catch (e: Exception) {
+                    // Manejar error de conexión (ej. falta de internet)
+                    e.printStackTrace()
+                } finally {
+                    isLoading = false
+                }
+            }
+        }
+    }
     fun registerNewNurse(name: String, lastname: String, user: String, pw: String) {
         val newNurse = Nurse(
             id = System.currentTimeMillis(),
