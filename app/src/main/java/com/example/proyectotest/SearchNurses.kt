@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
@@ -55,6 +56,7 @@ fun SearchView(
 ){
     val context = LocalContext.current
     var textSearch by remember { mutableStateOf("") }
+    val nurses by viewModel.nurseList.observeAsState(initial = emptyList())
 
     Scaffold(
         floatingActionButton = {
@@ -81,7 +83,8 @@ fun SearchView(
 
             TextField(
                 value = textSearch,
-                onValueChange = { textSearch = it },
+                onValueChange = { textSearch = it
+                    viewModel.fetchNursesByName(it)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(60.dp),
@@ -110,10 +113,7 @@ fun SearchView(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(viewModel.nurseList.value!!.filter {
-                    it.name.lowercase().contains(textSearch, ignoreCase = true)
-                }
-                ) { nurse ->
+                items(nurses) { nurse ->
 
                     Row(
                         modifier = Modifier
@@ -123,11 +123,9 @@ fun SearchView(
                     ) {
 
                         Image(
-                            painter = painterResource(id = nurse.imageId),
-                            contentDescription = context.getString(R.string.foto_de, nurse.name),
-                            modifier = Modifier
-                                .size(50.dp)
-                                .clip(CircleShape)
+                            painter = painterResource(id = R.drawable.nurse_generico), // Usa uno que sepas que existe
+                            contentDescription = null,
+                            modifier = Modifier.size(50.dp).clip(CircleShape)
                         )
 
                         Spacer(modifier = Modifier.width(16.dp))
