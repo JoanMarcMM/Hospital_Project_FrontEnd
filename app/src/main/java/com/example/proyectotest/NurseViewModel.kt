@@ -53,7 +53,6 @@ class NurseViewModel: ViewModel() {
         }
     }
 
-    // 2. Registro local (añade a la lista actual)
     fun registerNewNurse(name: String, lastname: String, user: String, pw: String) {
         val newNurse = Nurse(
             id = System.currentTimeMillis(),
@@ -64,13 +63,11 @@ class NurseViewModel: ViewModel() {
             imageId = R.drawable.nurse_generico
         )
 
-        // Actualizamos la lista del LiveData para que la UI se refresque
         val currentList = _nurseList.value.orEmpty().toMutableList()
         currentList.add(newNurse)
         _nurseList.value = currentList
     }
 
-    // 3. Intento de Login (Simplificado según tu estructura de Retrofit) [cite: 82, 141]
     suspend fun logInNurse(user: String, pw: String): Boolean {
         return try {
             // Aquí deberías llamar a un endpoint de login real en tu NurseApiEndpoints
