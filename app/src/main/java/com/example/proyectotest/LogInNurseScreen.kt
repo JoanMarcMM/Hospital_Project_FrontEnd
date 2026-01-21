@@ -85,7 +85,10 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                 Button(
                     onClick = {
                         scope.launch {
-                            val ok = nurseViewModel.logInNurse(user, pw)
+                            val ok = nurseViewModel.login(
+                                user.trim(),
+                                pw.trim()
+                            )
 
                             if (ok) {
                                 logInError = false
