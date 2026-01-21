@@ -1,4 +1,6 @@
 package com.example.proyectotest
+
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -14,4 +16,5 @@ object RetrofitClient {
             .create(NurseApiEndpoints::class.java)
 
     }
+
 }

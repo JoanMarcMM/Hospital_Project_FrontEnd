@@ -4,13 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.proyectotest.NurseDataHolder.initialNurses
 import kotlinx.coroutines.launch
 import android.util.Log // Importante para el Log.d
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.text.orEmpty
-import kotlin.text.toMutableList
 
 
 object NurseDataHolder {
@@ -70,15 +65,25 @@ class NurseViewModel: ViewModel() {
         _nurseList.value = currentList
     }
 
-    // 3. Intento de Login (Simplificado según tu estructura de Retrofit) [cite: 82, 141]
+    data class LoginRequest(
+        val user: String,
+        val pw: String
+    )
+
+    suspend fun login(user: String, pw: String): Boolean {
+        return try {
+            RetrofitClient.instance.login(LoginRequest(user, pw))
+        } catch (e: Exception) {
+            false
+        }
+    }
     suspend fun logInNurse(user: String, pw: String): Boolean {
         return try {
-            // Aquí deberías llamar a un endpoint de login real en tu NurseApiEndpoints
-            // Por ahora simulamos éxito si la red responde
             val response = RetrofitClient.instance.getAllNurses()
             response.any { it.user == user && it.pw == pw }
         } catch (e: Exception) {
             false
         }
     }
+
 }
