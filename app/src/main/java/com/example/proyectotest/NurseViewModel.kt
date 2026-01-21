@@ -35,7 +35,7 @@ class NurseViewModel: ViewModel() {
         _nurseList.value = currentList
     }
 
-    // 1. Obtener enfermeros de la API [cite: 30]
+
     fun fetchNursesFromApi() {
         viewModelScope.launch {
             try {
@@ -47,8 +47,23 @@ class NurseViewModel: ViewModel() {
             }
         }
     }
+    fun fetchNursesByName(query: String) {
+        viewModelScope.launch {
+            try {
+                val response = if (query.isEmpty()) {
+                    RetrofitClient.instance.getAllNurses()
+                } else {
+                    RetrofitClient.instance.searchNursesByName(query)
+                }
+                _nurseList.postValue(response)
+            } catch (e: Exception) {
+                _nurseList.postValue(emptyList())
+            }
+        }
+    }
 
-    // 2. Registro local (añade a la lista actual)
+
+
     fun registerNewNurse(name: String, lastname: String, user: String, pw: String) {
         val newNurse = Nurse(
             id = System.currentTimeMillis(),
@@ -59,7 +74,6 @@ class NurseViewModel: ViewModel() {
             imageId = R.drawable.nurse_generico
         )
 
-        // Actualizamos la lista del LiveData para que la UI se refresque
         val currentList = _nurseList.value.orEmpty().toMutableList()
         currentList.add(newNurse)
         _nurseList.value = currentList

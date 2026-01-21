@@ -5,12 +5,12 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface NurseApiEndpoints {
 
-    // 1. La anotación @GET define el tipo de petición y la ruta relativa
     @GET("nurse/index")
-    // 2. La función debe ser 'suspend' para que no bloquee la pantalla
     suspend fun getAllNurses(): List<Nurse>
 
     @POST("nurse/login")
@@ -18,5 +18,8 @@ interface NurseApiEndpoints {
 
     @POST("nurse/new")
     suspend fun register(@Body body: NurseViewModel.RegisterRequest):Response<Nurse>
+
+    @GET("nurse/name/{name}")
+    suspend fun searchNursesByName(@Path("name") name: String): List<Nurse>
 
 }
