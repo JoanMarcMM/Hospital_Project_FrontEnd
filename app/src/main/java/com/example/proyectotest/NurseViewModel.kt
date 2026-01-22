@@ -7,26 +7,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import android.util.Log // Importante para el Log.d
 
-
-object NurseDataHolder {
-
-     val initialNurses = listOf(
-        Nurse(1, "Mario", "Hermano", "mariobros", "1234", R.drawable.mario),
-        Nurse(2, "Marvin", "Marciano", "marvin_space", "5678", R.drawable.marvin),
-        Nurse(3, "GianMarc", "Motis", "gmotis", "abcd", R.drawable.motis),
-        Nurse(4, "Rodrigo", "Sopero", "rodri_caldo", "xyz", R.drawable.rodrigo)
-    )
-
-
-
-
-}
-
-
 class NurseViewModel: ViewModel() {
 
     // Iniciamos con la lista del DataHolder
-    private val _nurseList = MutableLiveData<List<Nurse>>(NurseDataHolder.initialNurses)
+    private val _nurseList = MutableLiveData<List<Nurse>>()
     val nurseList: LiveData<List<Nurse>> = _nurseList
 
     fun addNurse(nurse: Nurse) {
