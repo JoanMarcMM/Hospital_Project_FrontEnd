@@ -78,7 +78,7 @@ import androidx.navigation.compose.rememberNavController
                     },
                     onLogout = {
                         navController.navigate(Routes.LOGIN) {
-                            popUpTo(0)
+                            popUpTo(0) { inclusive = true }
                         }
                     }
                 )

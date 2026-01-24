@@ -113,7 +113,9 @@ class NurseViewModel: ViewModel() {
 
                     onSuccess()
                 } else {
+                    val errorReal = response.errorBody()?.string()
                     Log.e("Update", "El servidor rechazó el cambio: ${response.code()}")
+                    Log.e("ERROR_DETALLE", "El servidor dice: $errorReal")
                 }
             } catch (e: Exception) {
                 Log.e("Update", "Error de conexión: ${e.message}")
@@ -129,6 +131,9 @@ class NurseViewModel: ViewModel() {
 
                 if (response.isSuccessful) {
                     currentUser.postValue(null)
+                    val currentList = _nurseList.value.orEmpty().toMutableList()
+                    currentList.removeAll { it.id == id }
+                    _nurseList.postValue(currentList)
                     onDeleted()
                 } else {
                     Log.e("Delete", "Error al borrar: ${response.code()}")
