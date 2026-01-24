@@ -1,5 +1,6 @@
 package com.example.proyectotest
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,9 +18,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 
 @Composable
-fun RegisterScreen(viewModel: NurseViewModel, onRegistrationSuccess: () -> Unit) {
+fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> Unit) {
     // Variables de estado para los campos de texto
     var name by remember { mutableStateOf("") }
     var lastname by remember { mutableStateOf("") }
@@ -90,11 +92,36 @@ fun RegisterScreen(viewModel: NurseViewModel, onRegistrationSuccess: () -> Unit)
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            val scope = rememberCoroutineScope()
+            var registerError by remember { mutableStateOf(false) }
+
             Button(
                 onClick = {
-                    if (name.isNotEmpty() && username.isNotEmpty()) {
-                        viewModel.registerNewNurse(name, lastname, username, password)
-                        onRegistrationSuccess()
+                    scope.launch {
+                        if (
+                            name.isNotBlank() &&
+                            lastname.isNotBlank() &&
+                            username.isNotBlank() &&
+                            password.isNotBlank()
+                        ) {
+                            val ok = nurseViewModel.register(
+                                user = username.trim(),
+                                pw = password.trim(),
+                                name = name.trim(),
+                                lastname = lastname.trim()
+                            )
+
+                            Log.d("REGISTER", "ok=$ok")
+
+                            if (ok) {
+                                registerError = false
+                                onRegistrationSuccess()
+                            } else {
+                                registerError = true
+                            }
+                        } else {
+                            registerError = true
+                        }
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
@@ -103,7 +130,12 @@ fun RegisterScreen(viewModel: NurseViewModel, onRegistrationSuccess: () -> Unit)
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(text = "REGISTER", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("REGISTER", color = Color.White, fontWeight = FontWeight.Bold)
+            }
+
+            if (registerError) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(text = "Registration failed", color = Color.Red)
             }
         }
     }

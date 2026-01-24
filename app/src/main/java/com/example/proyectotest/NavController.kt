@@ -29,10 +29,10 @@ import androidx.navigation.compose.rememberNavController
             // --- 2. Pantalla de Registro ---
             composable(Routes.REGISTER) {
                 RegisterScreen(
-                    viewModel = nurseViewModel,
+                    nurseViewModel = nurseViewModel,
                     onRegistrationSuccess = {
                         navController.navigate(Routes.HOME) {
-                            popUpTo(Routes.HOME) { inclusive = true }
+                            popUpTo(Routes.REGISTER) { inclusive = true }
                         }
                     }
                 )
