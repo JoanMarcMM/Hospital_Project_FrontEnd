@@ -91,8 +91,15 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                             )
 
                             if (ok) {
+                                nurseViewModel.fetchCurrentUserProfile(user) { perfilEncontrado ->
+                                    if (perfilEncontrado) {
+                                        logInError = false
+                                        onLoginSuccess()
+                                    } else {
+                                        logInError = true
+                                    }
+                                }
                                 logInError = false
-                                onLoginSuccess()
                             } else {
                                 logInError = true
                             }

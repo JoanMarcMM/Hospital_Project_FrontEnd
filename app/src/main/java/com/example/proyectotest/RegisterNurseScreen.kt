@@ -32,8 +32,6 @@ fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // 1. IMAGEN DE FONDO (Estetoscopio)
-        // Asegúrate de tener una imagen de fondo en tus drawables, ej: 'bg_medical'
         Image(
             painter = painterResource(id = R.drawable.loginbackground), // CAMBIA ESTO por tu imagen real
             contentDescription = null,
@@ -41,14 +39,13 @@ fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> 
             modifier = Modifier.fillMaxSize()
         )
 
-        // Capa oscura semitransparente para que se lea el texto
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.4f))
         )
 
-        // 2. FORMULARIO CENTRADO
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -56,7 +53,7 @@ fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> 
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Título
+
             Box(modifier = Modifier.background(Color.Black).padding(12.dp)) {
                 Text(
                     text = "NURSE REGISTRATION",
@@ -68,7 +65,7 @@ fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> 
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Campos de texto (Reutilizamos un estilo común)
+
             RegisterTextField(value = name, onValueChange = { name = it }, label = "Name")
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -78,7 +75,6 @@ fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> 
             RegisterTextField(value = username, onValueChange = { username = it }, label = "Username")
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Campo de contraseña
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },

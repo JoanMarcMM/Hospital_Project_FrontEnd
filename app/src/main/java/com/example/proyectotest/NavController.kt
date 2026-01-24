@@ -38,7 +38,7 @@ import androidx.navigation.compose.rememberNavController
                 )
             }
 
-            // --- 3. Pantalla de Lista de Enfermeras ---
+            // --- 3. Pantalla de -Lista de Enfermeras ---
             composable(Routes.SHOW_NURSES) {
                 NurseListScreen(
                     nurseViewModel = nurseViewModel,
@@ -63,8 +63,26 @@ import androidx.navigation.compose.rememberNavController
                 HomeScreen(
                     onLoginClicked = { navController.navigate(Routes.LOGIN) },
                     onShowNursesClicked = { navController.navigate(Routes.SHOW_NURSES) },
-                    onSearchClicked = { navController.navigate(Routes.SEARCH_BY_NAME) }
+                    onSearchClicked = { navController.navigate(Routes.SEARCH_BY_NAME) },
+                    onProfileClicked = { navController.navigate(Routes.SHOW_PROFILE)}
                 )
             }
+
+            composable(Routes.SHOW_PROFILE) {
+                ProfileScreen(
+                    viewModel = nurseViewModel,
+                    onNavigateBack = {
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.HOME) { inclusive = true }
+                        }
+                    },
+                    onLogout = {
+                        navController.navigate(Routes.LOGIN) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
         }
     }
