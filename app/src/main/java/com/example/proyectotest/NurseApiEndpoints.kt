@@ -1,12 +1,9 @@
 package com.example.proyectotest
 
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import retrofit2.http.Query
-
+import retrofit2.Response
 interface NurseApiEndpoints {
 
     @GET("nurse/index")
@@ -18,4 +15,15 @@ interface NurseApiEndpoints {
     @GET("nurse/name/{name}")
     suspend fun searchNursesByName(@Path("name") name: String): List<Nurse>
 
+    @GET("nurse/{id}")
+    suspend fun getNurseById(@Path("id") id: Long): Response<Nurse>
+
+    @PUT("nurse/{id}")
+    suspend fun updateNurse(
+        @Path("id") id: Long,
+        @Body nurse: Nurse
+    ): Response<Nurse>
+
+    @DELETE("nurse/{id}")
+    suspend fun deleteNurse(@Path("id") id: Long): Response<String>
 }

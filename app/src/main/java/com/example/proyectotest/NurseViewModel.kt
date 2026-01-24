@@ -28,6 +28,7 @@ class NurseViewModel: ViewModel() {
     // Iniciamos con la lista del DataHolder
     private val _nurseList = MutableLiveData<List<Nurse>>(NurseDataHolder.initialNurses)
     val nurseList: LiveData<List<Nurse>> = _nurseList
+    val currentUser = MutableLiveData<Nurse?>()
 
     fun addNurse(nurse: Nurse) {
         val currentList = _nurseList.value.orEmpty().toMutableList()
@@ -78,7 +79,65 @@ class NurseViewModel: ViewModel() {
         currentList.add(newNurse)
         _nurseList.value = currentList
     }
+    /*
+    fun setUserAfterLogin(username: String) {
+        val foundNurse = _nurseList.value?.find { it.user == username }
 
+        if (foundNurse != null) {
+            currentUser.postValue(foundNurse)
+            Log.d("Login", "Usuario establecido: ${foundNurse.name}")
+        } else {
+            Log.e("Login", "¡Cuidado! Login correcto pero la lista de enfermeros estaba vacía.")
+        }
+    }
+º*/
+    fun updateProfile(id: Long, updatedNurse: Nurse, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                // 1. Enviamos los datos al servidor
+                val response = RetrofitClient.instance.updateNurse(id, updatedNurse)
+
+                if (response.isSuccessful) {
+
+
+
+                    val nurseToUpdate = response.body() ?: updatedNurse
+
+                    currentUser.postValue(nurseToUpdate)
+                    val currentList = _nurseList.value.orEmpty().toMutableList()
+                    val index = currentList.indexOfFirst { it.id == id }
+                    if (index != -1) {
+                        currentList[index] = nurseToUpdate
+                        _nurseList.postValue(currentList)
+                    }
+
+                    onSuccess()
+                } else {
+                    Log.e("Update", "El servidor rechazó el cambio: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("Update", "Error de conexión: ${e.message}")
+            }
+        }
+    }
+
+    fun deleteAccount(id: Long, onDeleted: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitClient.instance.deleteNurse(id)
+
+
+                if (response.isSuccessful) {
+                    currentUser.postValue(null)
+                    onDeleted()
+                } else {
+                    Log.e("Delete", "Error al borrar: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("Delete", "Error de conexión al borrar")
+            }
+        }
+    }
     data class LoginRequest(
         val user: String,
         val pw: String
@@ -99,5 +158,21 @@ class NurseViewModel: ViewModel() {
             false
         }
     }
+    suspend fun fetchCurrentUserProfile(username: String, onResult: (Boolean) -> Unit) {
+        try {
+             val allNurses = RetrofitClient.instance.getAllNurses()
 
+
+            val foundNurse = allNurses.find { it.user == username }
+
+            if (foundNurse != null) {
+                currentUser.postValue(foundNurse)
+                onResult(true)
+            } else {
+                onResult(false)
+            }
+        } catch (e: Exception) {
+            onResult(false)
+        }
+    }
 }

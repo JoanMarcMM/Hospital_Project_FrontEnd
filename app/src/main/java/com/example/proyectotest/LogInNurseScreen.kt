@@ -88,8 +88,15 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
                             val ok = nurseViewModel.logInNurse(user, pw)
 
                             if (ok) {
+                                nurseViewModel.fetchCurrentUserProfile(user) { perfilEncontrado ->
+                                    if (perfilEncontrado) {
+                                        logInError = false
+                                        onLoginSuccess()
+                                    } else {
+                                        logInError = true
+                                    }
+                                }
                                 logInError = false
-                                onLoginSuccess()
                             } else {
                                 logInError = true
                             }

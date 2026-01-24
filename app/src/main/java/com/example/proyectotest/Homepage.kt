@@ -92,7 +92,9 @@ class Homepage : ComponentActivity() {
 @Composable
 fun HomeScreen(onLoginClicked: () -> Unit,
                onShowNursesClicked: () -> Unit,
-               onSearchClicked: () -> Unit) {
+               onSearchClicked: () -> Unit,
+               onProfileClicked: () -> Unit )
+{
     Scaffold(
     ) { innerPadding ->
 
@@ -137,6 +139,13 @@ fun HomeScreen(onLoginClicked: () -> Unit,
                     text = stringResource(R.string.search_nurse_by_name),
                     onClick = { onSearchClicked() }
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                AppButton(
+                    text = stringResource(R.string.show_profile),
+                    onClick = { onProfileClicked() }
+                )
             }
 
 
@@ -180,7 +189,8 @@ fun HomeScreenPreview() {
         HomeScreen(
             onLoginClicked = { /* No hace nada en Preview */ },
             onShowNursesClicked = { /* No hace nada en Preview */ },
-            onSearchClicked = { /* No hace nada en Preview */ })
+            onSearchClicked = { /* No hace nada en Preview */ },
+            onProfileClicked = {  }   /* No hace nada en Preview */ )
     }
 
 
