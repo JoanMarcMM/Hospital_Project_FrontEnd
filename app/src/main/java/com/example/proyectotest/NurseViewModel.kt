@@ -135,10 +135,8 @@ class NurseViewModel: ViewModel() {
     suspend fun login(user: String, pw: String): Boolean {
         return try {
             val res = RetrofitClient.instance.login(LoginRequest(user, pw))
-            android.util.Log.d("LOGIN", "code=${res.code()} body=${res.body()} error=${res.errorBody()?.string()}")
             res.isSuccessful && (res.body() == true)
         } catch (e: Exception) {
-            android.util.Log.d("LOGIN", "EXCEPTION: ${e.message}", e)
             false
         }
     }
@@ -157,16 +155,9 @@ class NurseViewModel: ViewModel() {
                 RegisterRequest(user, pw, name, lastname)
             )
 
-            Log.d(
-                "REGISTER",
-                "code=${res.code()} isSuccessful=${res.isSuccessful} body=${res.body()} error=${res.errorBody()?.string()}"
-            )
-
-            // ✅ 201 + Nurse en body => éxito
             res.isSuccessful && (res.body() != null)
 
         } catch (e: Exception) {
-            Log.d("REGISTER", "EXCEPTION: ${e.message}", e)
             false
         }
     }
