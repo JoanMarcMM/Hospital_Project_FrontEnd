@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 
 @Composable
-fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> Unit) {
+fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> Unit,onBack: () -> Unit) {
     // Variables de estado para los campos de texto
     var name by remember { mutableStateOf("") }
     var lastname by remember { mutableStateOf("") }
@@ -140,6 +140,21 @@ fun RegisterScreen(nurseViewModel: NurseViewModel, onRegistrationSuccess: () -> 
             if (registerError) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(text = "Registration failed", color = Color.Red)
+            }
+            Button(
+                onClick = { onBack() },
+                modifier = Modifier
+                    .padding(24.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                    containerColor = Color.Black
+                )
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = "Back")
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                }
             }
         }
     }
