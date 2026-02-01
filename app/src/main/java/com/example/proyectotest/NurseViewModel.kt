@@ -56,7 +56,7 @@ class NurseViewModel: ViewModel() {
             lastname = lastname,
             user = user,
             pw = pw,
-            imageId = R.drawable.nurse_generico
+            imageId = 1
         )
 
         val currentList = _nurseList.value.orEmpty().toMutableList()
@@ -169,7 +169,10 @@ class NurseViewModel: ViewModel() {
             val foundNurse = allNurses.find { it.user == username }
 
             if (foundNurse != null) {
-                currentUser.postValue(foundNurse)
+
+                val nurseConImagen = foundNurse.copy(imageId = foundNurse.id.toInt())
+
+                currentUser.postValue(nurseConImagen)
                 onResult(true)
             } else {
                 onResult(false)

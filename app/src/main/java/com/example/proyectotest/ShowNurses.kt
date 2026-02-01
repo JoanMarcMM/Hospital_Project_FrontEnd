@@ -130,31 +130,23 @@ fun NurseCard(nurse: Nurse) {
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (nurse.imageId != 0) {
+
+                val resourceId = when (nurse.id.toInt()) {
+                    1 -> R.drawable.nurse_1
+                    2 -> R.drawable.nurse_2
+                    3 -> R.drawable.nurse_3
+                    4 -> R.drawable.nurse_4
+                    else -> R.drawable.profile_picture // Imagen genérica si el ID no es 1-4
+                }
+
                 Image(
-                    painter = painterResource(id = nurse.imageId),
+                    painter = painterResource(id = resourceId),
                     contentDescription = "Foto de ${nurse.name}",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(64.dp)
                         .clip(CircleShape)
                 )
-            } else {
-                Box(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape)
-                        .background(Color(0xFFC8E6C9)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = nurse.name.firstOrNull()?.toString()?.uppercase() ?: "?",
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF388E3C)
-                    )
-                }
-            }
 
             Spacer(modifier = Modifier.width(16.dp))
 
