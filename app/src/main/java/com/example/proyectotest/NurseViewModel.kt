@@ -135,7 +135,7 @@ class NurseViewModel: ViewModel() {
     suspend fun login(user: String, pw: String): Boolean {
         return try {
             val res = RetrofitClient.instance.login(LoginRequest(user, pw))
-            res.isSuccessful && (res.body() == true)
+            res.isSuccessful && (res.body() != null)
         } catch (e: Exception) {
             false
         }
