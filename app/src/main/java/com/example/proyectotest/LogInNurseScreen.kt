@@ -55,82 +55,82 @@ fun LogIn(modifier: Modifier, nurseViewModel: NurseViewModel, onLoginSuccess: ()
             modifier = Modifier.matchParentSize()
         )
 
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp )
-                    .padding(vertical = 60.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+        Column(
+            modifier = Modifier.padding(horizontal = 20.dp )
+                .padding(vertical = 60.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
 
 
-                ) {
-                Text(text =stringResource(id = R.string.log_in_form_title), modifier = Modifier.background(color = colorResource(id = R.color.black)).padding(10.dp), color = colorResource(id = R.color.white))
+            ) {
+            Text(text =stringResource(id = R.string.log_in_form_title), modifier = Modifier.background(color = colorResource(id = R.color.black)).padding(10.dp), color = colorResource(id = R.color.white))
+            Spacer(modifier = Modifier.height(16.dp))
+            TextField(
+                value = user,
+                onValueChange = { user = it },
+                label = { Text(text=stringResource(id = R.string.log_in_username_field)) },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            TextField(
+                value = pw,
+                onValueChange = { pw = it },
+                label = { Text(text=stringResource(id = R.string.log_in_password_field)) },
+                modifier = Modifier.fillMaxWidth()
+            )
+            if(logInError==true){
                 Spacer(modifier = Modifier.height(16.dp))
-                TextField(
-                    value = user,
-                    onValueChange = { user = it },
-                    label = { Text(text=stringResource(id = R.string.log_in_username_field)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                TextField(
-                    value = pw,
-                    onValueChange = { pw = it },
-                    label = { Text(text=stringResource(id = R.string.log_in_password_field)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                if(logInError==true){
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text =stringResource(id = R.string.log_in_error), color = colorResource(id = R.color.red))
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        scope.launch {
-                            val ok = nurseViewModel.login(
-                                user.trim(),
-                                pw.trim()
-                            )
-
-                            if (ok) {
-                                nurseViewModel.fetchCurrentUserProfile(user) { perfilEncontrado ->
-                                    if (perfilEncontrado) {
-                                        logInError = false
-                                        onLoginSuccess()
-                                    } else {
-                                        logInError = true
-                                    }
-                                }
-                                logInError = false
-                            } else {
-                                logInError = true
-                            }
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.black),
-                        contentColor   = colorResource(id = R.color.white)
-                    )
-                ) {
-                    Text(text=stringResource(id = R.string.log_in_button))
-                }
-                Spacer(modifier = modifier.height(400.dp))
-                Button(
-                    onClick = {
-                        onRegisterClicked()
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(id = R.color.black),
-                        contentColor   = colorResource(id = R.color.white)
-                    )
-                ) {
-                    Text(text=stringResource(id = R.string.log_in_register_button))
-                }
-
+                Text(text =stringResource(id = R.string.log_in_error), color = colorResource(id = R.color.red))
             }
-        }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    scope.launch {
+                        val ok = nurseViewModel.login(
+                            user.trim(),
+                            pw.trim()
+                        )
 
+                        if (ok) {
+                            nurseViewModel.fetchCurrentUserProfile(user) { perfilEncontrado ->
+                                if (perfilEncontrado) {
+                                    logInError = false
+                                    onLoginSuccess()
+                                } else {
+                                    logInError = true
+                                }
+                            }
+                            logInError = false
+                        } else {
+                            logInError = true
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.black),
+                    contentColor   = colorResource(id = R.color.white)
+                )
+            ) {
+                Text(text=stringResource(id = R.string.log_in_button))
+            }
+            Spacer(modifier = modifier.height(400.dp))
+            Button(
+                onClick = {
+                    onRegisterClicked()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.black),
+                    contentColor   = colorResource(id = R.color.white)
+                )
+            ) {
+                Text(text=stringResource(id = R.string.log_in_register_button))
+            }
+
+        }
     }
+
+}
 
 
 
