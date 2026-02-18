@@ -11,7 +11,7 @@ interface NurseApiEndpoints {
     suspend fun getAllNurses(): List<Nurse>
 
     @POST("nurse/login")
-    suspend fun login(@Body body: NurseViewModel.LoginRequest): Response<Boolean>
+    suspend fun login(@Body body: NurseViewModel.LoginRequest): Response<Nurse>
 
     @POST("nurse/new")
     suspend fun register(@Body body: NurseViewModel.RegisterRequest):Response<Nurse>

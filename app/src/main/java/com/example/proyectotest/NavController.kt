@@ -35,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
                             popUpTo(Routes.REGISTER) { inclusive = true }
                         }
                     }
+                    ,onBack = { navController.navigate(Routes.LOGIN) }
                 )
             }
 

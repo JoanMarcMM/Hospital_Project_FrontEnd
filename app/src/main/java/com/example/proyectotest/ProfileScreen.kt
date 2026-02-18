@@ -101,8 +101,17 @@ fun ProfileContent(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
 
+
+                val imagenId = when(nurse.imageId) {
+                    1 -> R.drawable.nurse_1
+                    2 -> R.drawable.nurse_2
+                    3 -> R.drawable.nurse_3
+                    4 -> R.drawable.nurse_4
+                    else -> R.drawable.profile_picture
+                }
+
                 Image(
-                    painter = painterResource(id = R.drawable.profile_picture),
+                    painter = painterResource(id = imagenId),
                     contentDescription = null,
                     modifier = Modifier.size(120.dp).clip(CircleShape),
                     contentScale = ContentScale.Crop
@@ -185,7 +194,7 @@ fun ProfileScreenPreview() {
         lastname = "Pérez",
         user = "mario.perez",
         pw = "1234",
-        imageId = R.drawable.profile_picture
+        imageId = 1
     )
 
     ProfileContent(
